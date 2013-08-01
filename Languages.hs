@@ -41,58 +41,35 @@ languages =
   , (mkLang "Catalan")
   , (mkLang "Chinese")
   , (mkLang "Danish")
-      { syntaxModule = Nothing }
   , (mkLang "Dutch")
   , (mkLang "English")
-      { syntaxModule = Nothing }
   , (mkLang "Estonian")
   , (mkLang "Finnish")
-      { syntaxModule = Nothing }
   , (mkLang "French")
-      { syntaxModule = Nothing }
   , (mkLang "German")
-      { syntaxModule = Nothing }
   , (mkLang "Greek")
-      { syntaxModule = Nothing }
   , (mkLang "Hebrew")
   , (mkLang "Hindi")
   , (mkLang "Interlingua" `setIso` "Ina")
   , (mkLang "Italian")
-      { syntaxModule = Nothing }
   , (mkLang "Japanese" `setIso` "Jpn")
-  -- , (mkLang "Latin")
-  -- , (mkLang "Latvian" `setIso` "Lav")
-  --     { syntaxModule = Nothing }
-  -- , (mkLang "Maltese" `setIso` "Mlt")
-  --     { syntaxModule = Nothing }
-  -- , (mkLang "Mongolian")
-  -- , (mkLang "Nepali")
-  -- , (mkLang "Norwegian")
-  --     { syntaxModule = Nothing }
-  -- , (mkLang "Persian" `setIso` "Pes")
-  --     { syntaxModule = Nothing }
-  -- , (mkLang "Punjabi" `setIso` "Pnb")
-  --     { syntaxModule = Nothing }
-  -- , (mkLang "Polish")
-  --     { syntaxModule = Nothing }
-  -- , (mkLang "Romanian" `setIso` "Ron")
-  --     { syntaxModule = Nothing }
-  -- , (mkLang "Russian")
-  --     { syntaxModule = Nothing }
-  -- , (mkLang "Sindhi" `setIso` "Snd")
-  --     { syntaxModule = Nothing }
-  -- , (mkLang "Spanish")
-  --     { syntaxModule = Nothing }
-  -- , (mkLang "Swahili")
-  --     { syntaxModule = Nothing }
-  -- , (mkLang "Swedish")
-  --     { syntaxModule = Nothing }
+  , (mkLang "Latin")
+  , (mkLang "Latvian" `setIso` "Lav")
+  , (mkLang "Maltese" `setIso` "Mlt")
+  , (mkLang "Mongolian")
+  , (mkLang "Nepali")
+  , (mkLang "Norwegian")
+  , (mkLang "Persian" `setIso` "Pes")
+  , (mkLang "Punjabi" `setIso` "Pnb")
+  , (mkLang "Polish")
+  , (mkLang "Romanian" `setIso` "Ron")
+  , (mkLang "Russian")
+  , (mkLang "Sindhi" `setIso` "Snd")
+  , (mkLang "Spanish")
+  , (mkLang "Swahili")
+  , (mkLang "Swedish")
   , (mkLang "Thai")
-      { syntaxModule = Nothing }
   , (mkLang "Tswana" `setIso` "Tsn")
-      { syntaxModule = Nothing }
   , (mkLang "Turkish")
-      { syntaxModule = Nothing }
   , (mkLang "Urdu")
-      { syntaxModule = Nothing }
   ]
