@@ -9,6 +9,7 @@ import Prelude hiding (FilePath)
 import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Monoid ((<>))
+import Control.Exception (Exception)
 default (T.Text)
 
 data Status = Status { lang :: Lang,
@@ -25,8 +26,9 @@ getStatus l = do
   dict   <- getModuleStatus (dictModule l)
   return (Status l lex syntax irreg dict)
 
-getModuleStatus :: FilePath -> Sh (Either Text (Int,Int))
-getModuleStatus p = do
+getModuleStatus :: Maybe FilePath -> Sh (Either Text (Int,Int))
+getModuleStatus Nothing = return (Left "Skipped")
+getModuleStatus (Just p) = flip catchany_sh onErrors $ do
   exists <- test_f p
   if not exists
     then return $ Left (toTextIgnore p <> " does not exists")
@@ -41,3 +43,5 @@ getModuleStatus p = do
           out <- setStdin "pg -funs" >> gf p
           return (length (filter (not.T.null) (T.lines out)))
         gf p = cmd "gf" "--run" p "+RTS" "-K32M" "-RTS"
+        onErrors :: (Exception e, Show e) => e -> Sh (Either Text (Int,Int))
+        onErrors e = return (Left (T.pack (show e)))

@@ -18,4 +18,4 @@ spec = do
 
     it "Creates the module path" $
       mkModule "Lexicon" "Eng"
-        `shouldBe` "dist/build/rgl/alltenses/LexiconEng.gfo"
+        `shouldBe` Just "dist/build/rgl/alltenses/LexiconEng.gfo"
