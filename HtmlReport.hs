@@ -27,7 +27,7 @@ reportHtml es = docTypeHtml $ do
       H.style stylesheet
     H.body $ do
       H.div ! class_ "container" ! A.style "max-width: 700px;"$ do
-        h1 docTitle
+        h2 docTitle
         table ! class_ "table" $ do
           tableHeader
           forM_ es mkRow
