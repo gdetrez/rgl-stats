@@ -18,17 +18,17 @@ data Status = Status { lang :: Lang,
   irregStatus :: Either Text (Int,Int),
   dictStatus :: Either Text (Int,Int) }
 
-getStatus :: Lang -> Sh Status
-getStatus l = do
-  lex    <- getModuleStatus (lexiconModule l)
-  syntax <- getModuleStatus (syntaxModule l)
-  irreg  <- getModuleStatus (irregModule l)
-  dict   <- getModuleStatus (dictModule l)
+getStatus :: FilePath -> Lang -> Sh Status
+getStatus gf l = do
+  lex    <- getModuleStatus gf (lexiconModule l)
+  syntax <- getModuleStatus gf (syntaxModule l)
+  irreg  <- getModuleStatus gf (irregModule l)
+  dict   <- getModuleStatus gf (dictModule l)
   return (Status l lex syntax irreg dict)
 
-getModuleStatus :: Maybe FilePath -> Sh (Either Text (Int,Int))
-getModuleStatus Nothing = return (Left "Skipped")
-getModuleStatus (Just p) = flip catchany_sh onErrors $ do
+getModuleStatus :: FilePath -> Maybe FilePath -> Sh (Either Text (Int,Int))
+getModuleStatus _ Nothing = return (Left "Skipped")
+getModuleStatus gf (Just p) = flip catchany_sh onErrors $ do
   exists <- test_f p
   if not exists
     then return $ Left (toTextIgnore p <> " does not exists")
@@ -37,11 +37,11 @@ getModuleStatus (Just p) = flip catchany_sh onErrors $ do
       missing <- pg_missing p
       return (Right (missing, funs))
   where pg_missing p = do
-          out <- setStdin "pg -missing" >> gf p
+          out <- setStdin "pg -missing" >> rungf p
           return (length (drop 2 (T.words out)))
         pg_funs p = do
-          out <- setStdin "pg -funs" >> gf p
+          out <- setStdin "pg -funs" >> rungf p
           return (length (filter (not.T.null) (T.lines out)))
-        gf p = cmd "gf" "--run" p "+RTS" "-K32M" "-RTS"
+        rungf p = cmd gf "--run" p "+RTS" "-K32M" "-RTS"
         onErrors :: (Exception e, Show e) => e -> Sh (Either Text (Int,Int))
         onErrors e = return (Left (T.pack (show e)))
