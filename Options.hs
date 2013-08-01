@@ -1,13 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Options where
 
-import System.Log.Logger (Priority(..))
 import Options.Applicative
-import Shelly (FilePath(..))
+import Shelly (FilePath(..),Sh(..),liftIO)
 import Prelude hiding (FilePath)
 import Data.String (fromString)
 import System.Log.Logger
-import Shelly
 
 data Options = Options
   { gfBin       :: Maybe FilePath

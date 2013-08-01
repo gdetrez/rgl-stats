@@ -22,10 +22,10 @@ mkLang n = Lang n iso' (mkModule "Lexicon" iso') (mkModule "Lang" iso')
 
 setIso :: Lang -> Text -> Lang
 setIso l newIso = l { iso = newIso,
-    lexiconModule = (mkModule "Lexicon" newIso),
-    syntaxModule  = (mkModule "Lang" newIso),
-    irregModule   = (mkModule "Irreg" newIso),
-    dictModule    = (mkModule "Dict" newIso) }
+    lexiconModule = mkModule "Lexicon" newIso,
+    syntaxModule  = mkModule "Lang" newIso,
+    irregModule   = mkModule "Irreg" newIso,
+    dictModule    = mkModule "Dict" newIso }
   where oldIso = iso l
 
 mkModule :: Text -> Text -> FilePath
@@ -37,27 +37,27 @@ languages =
   [ mkLang "Afrikaans"
   , mkLang "Amharic"
   , mkLang "Arabic"
-  , mkLang "Bulgarian"
-  , mkLang "Catalan"
+  --, mkLang "Bulgarian"
+  --, mkLang "Catalan"
   , mkLang "Chinese"
   , mkLang "Danish"
   , mkLang "Dutch"
-  -- , mkLang "English"
-  -- , mkLang "Estonian"
+  , mkLang "English"
+  , mkLang "Estonian"
   -- , mkLang "Finnish"
   -- , mkLang "French"
   -- , mkLang "German"
-  -- , mkLang "Greek"
-  -- , mkLang "Hebrew"
-  -- , mkLang "Hindi"
-  -- , mkLang "Interlingua" `setIso` "Ina"
+  --, mkLang "Greek"
+  , mkLang "Hebrew"
+  --, mkLang "Hindi"
+  , mkLang "Interlingua" `setIso` "Ina"
   -- , mkLang "Italian"
-  -- , mkLang "Japanese" `setIso` "Jpn"
-  -- , mkLang "Latin"
-  -- , mkLang "Latvian"
-  , mkLang "Maltese" `setIso` "Mlt"
-  -- , mkLang "Mongolian"
-  -- , mkLang "Nepali"
+  , mkLang "Japanese" `setIso` "Jpn"
+  , mkLang "Latin"
+  , mkLang "Latvian" `setIso` "Lav"
+  --, mkLang "Maltese" `setIso` "Mlt"
+  , mkLang "Mongolian"
+  , mkLang "Nepali"
   -- , mkLang "Norwegian"
   -- , mkLang "Persian" `setIso` "Pes"
   -- , mkLang "Punjabi" `setIso` "Pnb"
@@ -67,9 +67,9 @@ languages =
   -- , mkLang "Sindhi" `setIso` "Snd"
   -- , mkLang "Spanish"
   -- , mkLang "Swahili"
-  -- , mkLang "Swedish"
+  , mkLang "Swedish"
   -- , mkLang "Thai"
   -- , mkLang "Tswana" `setIso` "Tsn"
-  -- -- , mkLang "Turkish"
+  -- , mkLang "Turkish"
   -- , mkLang "Urdu"
   ]

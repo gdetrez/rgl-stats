@@ -60,18 +60,18 @@ htmlLexiconStatus (Right (a,b)) | a == 0 =
 htmlLexiconStatus (Right (a,b)) =
     abbr' (show percents ++ "%") (show a ++ " missing") ! A.class_ (cl percents)
   where percents = floor ((fromIntegral b - fromIntegral a) / fromIntegral b * 100)
-        cl p | p >= 90   = "text-info"
-        cl p | p >= 20   = "text-warning"
-        cl p | otherwise = "text-error"
+        cl p | p >= 90  = "text-info"
+        cl p | p >= 20  = "text-warning"
+        cl p            = "text-error"
 htmlSyntaxStatus = htmlLexiconStatus
 
 htmlDictStatus :: Either Text (Int,Int) -> Html
 htmlDictStatus (Left msg) = abbr' ("\x2717"::Text) msg ! A.class_ "text-error"
 htmlDictStatus (Right (a,b)) | a == 0 =
-  H.span (toHtml ("\x2714 (" <> show b <> " entries)")) ! A.class_ "text-success"
+  H.span (toHtml (show b <> " entries")) ! A.class_ "text-success"
 htmlDictStatus (Right (a,b)) =
-  H.span ( abbr' ("\x26A0"::Text) (show a <> " missing")
-        >> toHtml ("(" <> show b <> " entries)")
+  H.span ( toHtml (show b <> " entries")
+        >> abbr' ("\x26A0"::Text) (show a <> " missing")
   ) ! A.class_ "text-warning"
 htmlIrregStatus = htmlDictStatus
 
