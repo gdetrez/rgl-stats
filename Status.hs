@@ -3,28 +3,35 @@
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 module Status where
 
-import Languages
-import Shelly
-import Prelude hiding (FilePath)
-import Data.Text (Text)
-import qualified Data.Text as T
-import Data.Monoid ((<>))
 import Control.Exception (Exception)
+import Data.Monoid ((<>))
+import Data.Text (Text)
+import Prelude hiding (FilePath)
+import Shelly
+
+import qualified Data.Text as T
+
+import Predictability (ExperimentReport, runExperiment)
+import Languages
+import Options
+
 default (T.Text)
 
 data Status = Status { lang :: Lang,
   lexiconStatus :: Either Text (Int,Int),
   syntaxStatus :: Either Text (Int,Int),
   irregStatus :: Either Text (Int,Int),
-  dictStatus :: Either Text (Int,Int) }
+  dictStatus :: Either Text (Int,Int),
+  predictabilityReports :: [ExperimentReport] }
 
-getStatus :: FilePath -> Lang -> Sh Status
-getStatus gf l = do
+getStatus :: Options -> FilePath -> Lang -> Sh Status
+getStatus opts gf l = do
   lex    <- getModuleStatus gf (lexiconModule l)
   syntax <- getModuleStatus gf (syntaxModule l)
   irreg  <- getModuleStatus gf (irregModule l)
   dict   <- getModuleStatus gf (dictModule l)
-  return (Status l lex syntax irreg dict)
+  pred   <- mapM (runExperiment opts gf) (predictability l)
+  return (Status l lex syntax irreg dict pred)
 
 getModuleStatus :: FilePath -> Maybe FilePath -> Sh (Either Text (Int,Int))
 getModuleStatus _ Nothing = return (Left "Skipped")

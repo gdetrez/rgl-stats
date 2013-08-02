@@ -6,6 +6,7 @@ import Options
 import Shelly
 import Languages
 import Status
+import Predictability
 import Data.Monoid ((<>))
 import Prelude hiding (FilePath)
 
@@ -20,13 +21,13 @@ main = do
     gf <- findGf (gfBin options)
     notice $ "Using gf binary: " ++ show gf
 
-    status <- mapM (getStatus' gf) languages
+    status <- mapM (getStatus' options gf) languages
     case htmlReport options of
       Just p  -> writefile p (makeHtmlReport status)
       Nothing -> return ()
-  where getStatus' gf l = do
+  where getStatus' options gf l = do
           notice ("\x2192 " <> show (name l))
-          getStatus gf l
+          getStatus options gf l
 
 
 -- | Function that tries to find the gf binaries given the --gf-bin option
