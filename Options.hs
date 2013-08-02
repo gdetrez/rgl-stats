@@ -15,9 +15,10 @@ data Options = Options
   , limit       :: Maybe Int
   } deriving (Eq,Show)
 
-defaultOptions = Options  { gfBin = Nothing, priority = DEBUG
-                          , htmlReport = Nothing, csvReport = Nothing
-                          , limit = Nothing }
+defaultOptions = Options
+  { gfBin = Nothing, priority = DEBUG
+  , htmlReport = Nothing, csvReport = Nothing
+  , limit = Nothing }
 
 parseVerbosity :: Parser Priority
 parseVerbosity =
