@@ -6,6 +6,7 @@ module Predictability where
 import Debug.Trace
 import qualified Data.Text as T
 import Data.List (isPrefixOf)
+import Data.Maybe (fromMaybe)
 import Options
 import Shelly
 import Prelude hiding (FilePath)
@@ -68,8 +69,8 @@ m2Percent er = floor (fromIntegral (m2 er) / fromIntegral (entries er) * 100)
 
 
 
-runExperiment :: Options -> FilePath -> Experiment -> Sh ExperimentReport
-runExperiment opts gf e = do
+runExperiment :: Options -> Experiment -> Sh ExperimentReport
+runExperiment opts e = do
     notice $ "Predictability: " ++ title e
     -- Next we extract the lexicon from the ressource grammar
     lexicon <- getLexicon gf (lexicon e) (category e) (nforms e)
@@ -81,7 +82,7 @@ runExperiment opts gf e = do
     costs <- mapM (wordCost gf e) lexicon'
     -- Create and return an experiment report
     return $ makeReport e costs
-
+  where gf = fromMaybe "gf" (gfBin opts)
 -- | This compute the cost of a single word
 -- The cost of a word is computed as follow:
 --  - first the `setup` function of the experiment is used to get all

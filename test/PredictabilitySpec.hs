@@ -135,7 +135,7 @@ spec = do
                         , distribution = [2,1] }
 
       it "should produce the expected report" $
-        sh (runExperiment defaultOptions "gf" experiment)
+        sh (runExperiment defaultOptions experiment)
           `shouldReturn` report
 
   context "Toy experiment with english verbs" $ do
@@ -164,7 +164,7 @@ spec = do
                                     , distribution = [1,1,1] }
 
       it "should produce the expected report" $
-        sh (runExperiment defaultOptions "gf" experiment)
+        sh (runExperiment defaultOptions experiment)
           `shouldReturn` report
 
 getCosts :: Gen [Int]

@@ -34,9 +34,9 @@ spec = do
     let testLang = (mkLang "Test") { lexiconModule = Just "test/Concrete2.gf" }
 
     it "Keeps the language info" $ do
-      liftM (name.lang) (sh (getStatus defaultOptions "gf" testLang))
+      liftM (name.lang) (sh (getStatus defaultOptions testLang))
         `shouldReturn` name testLang
 
     it "get the status of the lexicon " $ do
-      liftM lexiconStatus (sh (getStatus defaultOptions "gf" testLang))
+      liftM lexiconStatus (sh (getStatus defaultOptions testLang))
         `shouldReturn` Right (1,3)

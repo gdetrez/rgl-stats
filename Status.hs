@@ -5,6 +5,7 @@ module Status where
 
 import Control.Exception (Exception)
 import Data.Monoid ((<>))
+import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import Prelude hiding (FilePath)
 import Shelly
@@ -21,17 +22,16 @@ data Status = Status { lang :: Lang,
   lexiconStatus :: Either Text (Int,Int),
   syntaxStatus :: Either Text (Int,Int),
   irregStatus :: Either Text (Int,Int),
-  dictStatus :: Either Text (Int,Int),
-  predictabilityReports :: [ExperimentReport] }
+  dictStatus :: Either Text (Int,Int) }
 
-getStatus :: Options -> FilePath -> Lang -> Sh Status
-getStatus opts gf l = do
+getStatus :: Options -> Lang -> Sh Status
+getStatus opts l = do
   lex    <- getModuleStatus gf (lexiconModule l)
   syntax <- getModuleStatus gf (syntaxModule l)
   irreg  <- getModuleStatus gf (irregModule l)
   dict   <- getModuleStatus gf (dictModule l)
-  pred   <- mapM (runExperiment opts gf) (predictability l)
-  return (Status l lex syntax irreg dict pred)
+  return (Status l lex syntax irreg dict)
+  where gf = fromMaybe "gf" (gfBin opts)
 
 getModuleStatus :: FilePath -> Maybe FilePath -> Sh (Either Text (Int,Int))
 getModuleStatus _ Nothing = return (Left "Skipped")

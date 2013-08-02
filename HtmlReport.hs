@@ -19,13 +19,13 @@ import Predictability
 import Status
 
 
-makeHtmlReport :: [Status] -> Text
-makeHtmlReport = toStrict . renderHtml . reportHtml
+htmlToText :: Html -> Text
+htmlToText = toStrict . renderHtml
   where toStrict :: LT.Text -> Text
         toStrict = Text.concat . LT.toChunks
 
-reportHtml :: [Status]  -> Html
-reportHtml es = docTypeHtml $ do
+makeStatusReport :: [Status] -> Text
+makeStatusReport es = htmlToText $ docTypeHtml $ do
     H.head $ do
       H.title docTitle
       H.style stylesheet
@@ -36,8 +36,6 @@ reportHtml es = docTypeHtml $ do
           -- Table headers
           tr (mapM_ th ["Language", "ISO", "Lexicon", "Syntax", "Irreg", "Dict"])
           forM_ es mkRow
-        h3 "Predictability"
-        predTable (concatMap predictabilityReports es)
   where docTitle = "Status of the GF Resource Grammar Library"
 
 mkRow :: Status -> Html
@@ -53,45 +51,53 @@ mkRow status = do
 
 htmlLexiconStatus :: Either Text (Int,Int) -> Html
 htmlLexiconStatus (Left msg) =
-    abbr' ("\x2717"::Text) msg ! A.class_ "text-error"
+    abbr' ("\x2717"::Text) msg ! A.class_ "label"
 htmlLexiconStatus (Right (a,b)) | a == 0 =
-    H.span "\x2714" ! A.class_ "text-success"
+    H.span "\x2714" ! A.class_ "label label-success"
 htmlLexiconStatus (Right (a,b)) =
     abbr' (show percents ++ "%") (show a ++ " missing") ! A.class_ (cl percents)
   where percents = floor ((fromIntegral b - fromIntegral a) / fromIntegral b * 100)
-        cl p | p >= 90  = "text-info"
-        cl p | p >= 20  = "text-warning"
-        cl p            = "text-error"
+        cl p | p >= 90  = "label label-info"
+        cl p | p >= 20  = "label label-warning"
+        cl p            = "label"
 htmlSyntaxStatus = htmlLexiconStatus
 
 htmlDictStatus :: Either Text (Int,Int) -> Html
-htmlDictStatus (Left msg) = abbr' ("\x2717"::Text) msg ! A.class_ "text-error"
+htmlDictStatus (Left msg) = abbr' ("\x2717"::Text) msg ! A.class_ "label"
 htmlDictStatus (Right (a,b)) | a == 0 =
-  H.span (toHtml (show b <> " entries")) ! A.class_ "text-success"
+  H.span (toHtml (show b <> " entries")) ! A.class_ "label label-success"
 htmlDictStatus (Right (a,b)) =
   H.span ( toHtml (show b <> " entries")
         >> abbr' ("\x26A0"::Text) (show a <> " missing")
-  ) ! A.class_ "text-warning"
+  ) ! A.class_ "label label-warning"
 htmlIrregStatus = htmlDictStatus
 
 
 -- --- Predictability table --------------------------------------------------
-predTable :: [ExperimentReport] -> Html
-predTable es = table ! class_ "table" $ do
-    -- Headers
-    (tr.mapM_ th)
-      ["Title", "entries", "mean cost", "median cost", "m=1", "m≤2", "distribution"]
-    -- rows
-    forM_ es $ \report -> tr $ do
-      td (toHtml (experiment report))
-      td (toHtml (entries report))
-      td (toHtml (meanCost report))
-      td (toHtml (medianCost report))
-      td  $ abbr' (show (m1Percent report) ++ "%") (m1 report)
-      td  $ abbr' (show (m2Percent report) ++ "%") (m2 report)
-      let sparkline = fromString (distributionSparkline report)
-          alttext = fromString $ show (distribution report)
-      td (img ! src sparkline ! alt alttext ! A.style "vertical-align: 15px;")
+makePredictabilityReport :: [ExperimentReport] -> Text
+makePredictabilityReport es = htmlToText $ docTypeHtml $ do
+    H.head $ do
+      H.title docTitle
+      H.style stylesheet
+    H.body $ do
+      H.div ! class_ "container" ! A.style "max-width: 700px;"$ do
+        h2 docTitle
+        table ! class_ "table" $ do
+          -- Headers
+          (tr.mapM_ th)
+            ["Title", "entries", "mean cost", "median cost", "m=1", "m≤2", "distribution"]
+          -- rows
+          forM_ es $ \report -> tr $ do
+            td (toHtml (experiment report))
+            td (toHtml (entries report))
+            td (toHtml (meanCost report))
+            td (toHtml (medianCost report))
+            td  $ abbr' (show (m1Percent report) ++ "%") (m1 report)
+            td  $ abbr' (show (m2Percent report) ++ "%") (m2 report)
+            let sparkline = fromString (distributionSparkline report)
+                alttext = fromString $ show (distribution report)
+            td (img ! src sparkline ! alt alttext ! A.style "vertical-align: 15px;")
+  where docTitle = "Predictability report"
 
 distributionSparkline :: ExperimentReport -> String
 distributionSparkline er = "data:image/png;base64," ++ str

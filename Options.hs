@@ -2,7 +2,7 @@
 module Options where
 
 import Options.Applicative
-import Shelly (FilePath(..),Sh(..),liftIO)
+import Shelly
 import Prelude hiding (FilePath)
 import Data.String (fromString)
 import System.Log.Logger
@@ -49,18 +49,42 @@ parseOptions = Options
          <> metavar "N"
          <> help "limit the experiment to N lexicon entries"))
 
-getOptions :: IO Options
-getOptions = execParser opts
+getOptions :: Sh Options
+getOptions = do
+    options <- liftIO $ execParser opts
+    -- Set logging level
+    setLogger options
+    -- Print the options (debug level)
+    debug $ show options
+    -- The first thing we do is to make sure we can find the gf binary.
+    -- Otherwise we exit with an error
+    gf <- findGf (gfBin options)
+    notice $ "Using gf binary: " ++ show gf
+    return $ options { gfBin = Just gf }
   where opts = Options.Applicative.info (helper <*> parseOptions)
           ( fullDesc
          <> progDesc "Print a greeting for TARGET"
          <> header "hello - a test for optparse-applicative" )
 
+-- | Function that tries to find the gf binaries given the --gf-bin option
+findGf :: Maybe FilePath -> Sh FilePath
+findGf (Nothing) = do
+    gf <- which "gf"
+    case gf of
+      Just p -> return p
+      Nothing -> errorExit "gf is not in your path. Please specify the path to the gf binary with --gf-bin"
+findGf (Just p) = do
+    p' <- canonic p
+    exists <- test_e p'
+    unless exists $ errorExit "The specified gf binary does not exists"
+    return p'
+
+-- ~~~ Logging utilities ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 loggerName :: String
 loggerName = ""
 
-setLogger :: Options -> IO ()
-setLogger options = updateGlobalLogger loggerName (setLevel (priority options))
+setLogger :: Options -> Sh ()
+setLogger = liftIO . updateGlobalLogger loggerName . setLevel . priority
 
 debug :: String -> Sh ()
 debug = liftIO . debugM loggerName
@@ -70,4 +94,3 @@ info = liftIO . infoM loggerName
 
 notice :: String -> Sh ()
 notice = liftIO . noticeM loggerName
-
