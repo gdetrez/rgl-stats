@@ -5,7 +5,7 @@ module Predictability where
 
 import Debug.Trace
 import qualified Data.Text as T
-import Data.List (isPrefixOf)
+import Data.List
 import Data.Maybe (fromMaybe)
 import Options
 import Shelly
@@ -13,7 +13,6 @@ import Prelude hiding (FilePath)
 import Text.Printf (printf)
 
 import Data.Text (Text)
-import Data.List
 
 -- | As defined in the paper, a word is a element of the lexicon,
 -- that is, an inflection table of size n
@@ -153,7 +152,7 @@ mean x = sum x / fromIntegral (length x)
 
 -- |Median
 median :: [Double] -> Double
-median x | odd n  = head  $ drop (n `div` 2) x'
+median x | odd n  = x' !! (n `div` 2)
          | even n = mean $ take 2 $ drop i x'
   where i = (length x' `div` 2) - 1
         x' = sort x
