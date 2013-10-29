@@ -13,6 +13,7 @@ main :: IO ()
 main = shelly $ silently $ do
     options <- getOptions
     let experiments = [ englishNouns, englishVerbs
+                      , estonianNouns, estonianVerbs
                       -- , finnishNouns, finnishVerbs
                       , frenchVerbs
                       , swedishNouns, swedishVerbs ]
@@ -137,3 +138,23 @@ swedishVerbs = Experiment
       , [ esc gaa_inf, esc gick, esc gaatt ]
       , [ esc gaa_inf, esc gaar, esc gaa_imp, esc gick, esc gaatt, esc gaangen ] ] }
 
+-- ~~~ Estonian  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+estonianNouns, estonianVerbs :: Experiment
+estonianNouns = Experiment
+  { title         = "Estonian nouns"
+  , lexicon       = "lib/src/estonian/DictEst.gf"
+  , category      = "N"
+  , nforms        = 28
+  , morphology    = "lib/src/estonian/ParadigmsEst.gf"
+  , smartparadigm = "mkN"
+  , setup         = \forms -> map (map (esc . (forms!!)))
+      [ [ 0 ], [ 0, 1 ], [ 0, 1, 2 ], [ 0, 1, 2, 16 ] ] }
+estonianVerbs = Experiment
+  { title         = "Estonian verbs"
+  , lexicon       = "lib/src/estonian/DictEst.gf"
+  , category      = "V"
+  , nforms        = 40
+  , morphology    = "lib/src/estonian/ParadigmsEst.gf"
+  , smartparadigm = "mkV"
+  , setup         = \forms -> map (map (esc . (forms!!)))
+      [ [ 2 ], [ 2, 0 ], [ 2, 0, 9 ], [ 2, 0, 9, 30 ] ] }
