@@ -137,10 +137,8 @@ swedishVerbs = Experiment
   , nforms        = 17
   , morphology = "lib/src/swedish/ParadigmsSwe.gf"
   , smartparadigm = "mkV"
-  , setup = \(gaar:gaas:gick:gicks:gaa_imp:gaa_inf:gaas_inf:gaatt:gaatts:gaangen:gaangens:gaanget:gaangets:gaangna_undef:gaangnas_undef:gaangna_def:gaangnas_def:_) ->
-      [ [ esc gaa_inf ]
-      , [ esc gaa_inf, esc gick, esc gaatt ]
-      , [ esc gaa_inf, esc gaar, esc gaa_imp, esc gick, esc gaatt, esc gaangen ] ] }
+  , setup = \forms -> map (map (esc . (forms!!)))
+      [ [ 0 ], [ 6, 2 ], [ 6, 2, 8 ], [ 6, 0, 4, 2, 8, 10 ] ] }
 
 -- ~~~ Estonian  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 estonianNouns, estonianVerbs :: Experiment
