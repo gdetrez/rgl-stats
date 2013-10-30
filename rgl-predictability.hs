@@ -18,6 +18,7 @@ main = shelly $ silently $ do
                       , estonianVerbs
                       --, finnishNouns
                       --, finnishVerbs
+                      , frenchAdjectives
                       , frenchVerbs
                       , swedishNouns
                       , swedishVerbs ]
@@ -86,7 +87,16 @@ finnishVerbs = Experiment
         , [ panna, panen, panee, panevat, pankaa, pannaan, panin, pani, panisi, pannut, pantu, pannee ] ]}
   
 -- ~~~ French ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-frenchVerbs :: Experiment
+frenchAdjectives, frenchVerbs :: Experiment
+frenchAdjectives = Experiment
+  { title         = "French adjectives"
+  , lexicon       = "lib/src/french/DictFre.gf"
+  , category      = "A"
+  , nforms        = 5 -- includes adverb form
+  , morphology    = "lib/src/french/ParadigmsFre.gf"
+  , smartparadigm = "mkA"
+  , setup         = \forms -> map (map (esc . (forms!!)))
+      [ [ 0 ], [ 0, 2 ], [ 0, 2, 1 ], [ 0, 2, 1, 4 ] ] }
 frenchVerbs = Experiment
   { title         = "French verbs"
   , lexicon       = "lib/src/french/DictFre.gf"
