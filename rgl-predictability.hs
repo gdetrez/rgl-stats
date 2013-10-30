@@ -20,6 +20,7 @@ main = shelly $ silently $ do
                       --, finnishVerbs
                       , frenchAdjectives
                       , frenchVerbs
+                      , swedishAdjectives
                       , swedishNouns
                       , swedishVerbs ]
     results <- mapM (runExperiment options) experiments
@@ -127,7 +128,18 @@ frenchVerbs = Experiment
         , [ tenir,tiens,tient,tenons,tenez,tiennent,tienne,tenions,tiensI,tint,tiendra,tenu ]
         ] }
   -- ~~~ Swedish ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-swedishNouns, swedishVerbs :: Experiment
+swedishAdjectives, swedishNouns, swedishVerbs :: Experiment
+swedishAdjectives = Experiment
+  { title         = "Swedish Adjectives"
+  , lexicon       = "lib/src/swedish/DictSwe.gf"
+  , category      = "A"
+  , nforms        = 17
+  , morphology    = "lib/src/swedish/ParadigmsSwe.gf"
+  , smartparadigm = "mkA"
+  , setup = \forms -> map (map (esc . (forms!!)))
+      [ [ 0 ], [ 0, 2 ], [ 0, 10, 12 ], [ 0, 2, 4, 10, 12 ],
+        [ 0, 2, 6, 4, 10, 12, 14 ] ] }
+
 swedishNouns = Experiment
   { title = "Swedish nouns"
   , lexicon = "lib/src/swedish/DictSwe.gf"
