@@ -4,7 +4,8 @@
 module Predictability where
 
 import Debug.Trace
-import qualified Data.Text as T
+import Data.Text.Lazy (Text)
+import qualified Data.Text.Lazy as T
 import Data.List
 import Data.Maybe (fromMaybe)
 import Options
@@ -12,7 +13,6 @@ import Shelly
 import Prelude hiding (FilePath)
 import Text.Printf (printf)
 
-import Data.Text (Text)
 
 -- | As defined in the paper, a word is a element of the lexicon,
 -- that is, an inflection table of size n

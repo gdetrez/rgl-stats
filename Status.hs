@@ -7,11 +7,11 @@ import Control.Exception (Exception)
 import Data.Monoid ((<>))
 import Data.Maybe (fromMaybe)
 import Text.Printf (printf)
-import Data.Text (Text)
 import Prelude hiding (FilePath)
 import Shelly
 
-import qualified Data.Text as T
+import Data.Text.Lazy (Text)
+import qualified Data.Text.Lazy as T
 
 import Predictability (ExperimentReport, runExperiment)
 import Languages
