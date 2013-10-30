@@ -12,11 +12,15 @@ import Prelude hiding (FilePath)
 main :: IO ()
 main = shelly $ silently $ do
     options <- getOptions
-    let experiments = [ englishNouns, englishVerbs
-                      , estonianNouns, estonianVerbs
-                      -- , finnishNouns, finnishVerbs
+    let experiments = [ englishNouns
+                      , englishVerbs
+                      , estonianNouns
+                      , estonianVerbs
+                      --, finnishNouns
+                      --, finnishVerbs
                       , frenchVerbs
-                      , swedishNouns, swedishVerbs ]
+                      , swedishNouns
+                      , swedishVerbs ]
     results <- mapM (runExperiment options) experiments
     case htmlReport options of
       Just p  -> writefile p (makePredictabilityReport results)
