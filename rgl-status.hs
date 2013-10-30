@@ -19,5 +19,5 @@ main = shelly $ silently $ do
   where getStatus' options l = do
           notice ("\x2192 " <> show (name l))
           s <- getStatus options l
-          liftIO $ print s
+          notice (show s)
           return s
