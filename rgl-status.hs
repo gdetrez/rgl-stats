@@ -18,4 +18,6 @@ main = shelly $ silently $ do
       Nothing -> return ()
   where getStatus' options l = do
           notice ("\x2192 " <> show (name l))
-          getStatus options l
+          s <- getStatus options l
+          liftIO $ print s
+          return s

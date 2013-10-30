@@ -6,6 +6,7 @@ module Status where
 import Control.Exception (Exception)
 import Data.Monoid ((<>))
 import Data.Maybe (fromMaybe)
+import Text.Printf (printf)
 import Data.Text (Text)
 import Prelude hiding (FilePath)
 import Shelly
@@ -23,6 +24,13 @@ data Status = Status { lang :: Lang,
   syntaxStatus :: Either Text (Int,Int),
   irregStatus :: Either Text (Int,Int),
   dictStatus :: Either Text (Int,Int) }
+
+instance Show Status where
+  show s = printf "Lexicon:%s Syntax:%s Irreg:%s Dict:%s"
+            (pp (lexiconStatus s)) (pp (syntaxStatus s))
+            (pp (irregStatus s)) (pp (dictStatus s))
+    where pp (Left _) = "ERROR" :: String
+          pp (Right (a,b)) = printf "%d/%d" (b-a) b :: String
 
 getStatus :: Options -> Lang -> Sh Status
 getStatus opts l = do
