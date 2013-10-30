@@ -42,17 +42,22 @@ languages =
   [ mkLang "Afrikaans"
   , mkLang "Amharic"
   , mkLang "Arabic"
-  , mkLang "Bulgarian"
+  , (mkLang "Bulgarian")
+      { dictModule = Just "lib/src/bulgarian/DictBul.gf" }
   , mkLang "Catalan"
   , mkLang "Chinese"
   , mkLang "Danish"
   , mkLang "Dutch"
   , (mkLang "English")
       { dictModule = Just "lib/src/english/DictEng.gf" }
-  , mkLang "Estonian"
-  , mkLang "Finnish"
-  , mkLang "French"
-  , mkLang "German"
+  , (mkLang "Estonian")
+      { dictModule = Just "lib/src/estonian/DictEst.gf" }
+  , (mkLang "Finnish")
+      { dictModule = Just "lib/src/finnish/DictFin.gf" }
+  , (mkLang "French")
+      { dictModule = Just "lib/src/french/DictFre.gf" }
+  , (mkLang "German")
+      { dictModule = Just "lib/src/german/DictGer.gf" }
   , mkLang "Greek"
   , mkLang "Hebrew"
   , mkLang "Hindi"
@@ -69,13 +74,17 @@ languages =
   , mkLang "Punjabi" `setIso` "Pnb"
   , mkLang "Polish"
   , mkLang "Romanian" `setIso` "Ron"
-  , mkLang "Russian"
+  , (mkLang "Russian")
+      { dictModule = Just "lib/src/russian/DictRus.gf" }
   , mkLang "Sindhi" `setIso` "Snd"
   , mkLang "Spanish"
   , mkLang "Swahili"
-  , mkLang "Swedish"
+  , (mkLang "Swedish")
+      { dictModule = Just "lib/src/swedish/DictSwe.gf" }
   , mkLang "Thai"
   , mkLang "Tswana" `setIso` "Tsn"
-  , mkLang "Turkish"
-  , mkLang "Urdu"
+  , (mkLang "Turkish")
+      { dictModule = Just "lib/src/turkish/DictTur.gf" }
+  , (mkLang "Urdu")
+      { dictModule = Just "lib/src/urdu/DictUrd.gf" }
   ]
