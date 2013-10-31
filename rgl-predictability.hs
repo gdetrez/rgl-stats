@@ -172,7 +172,8 @@ estonianNouns = Experiment
   , morphology    = "lib/src/estonian/ParadigmsEst.gf"
   , smartparadigm = "mkN"
   , setup         = \forms -> map (map (esc . (forms!!)))
-      [ [ 0 ], [ 0, 1 ], [ 0, 1, 2 ], [ 0, 1, 2, 16 ] ] }
+      [ [ 0 ], [ 0, 1 ], [ 0, 1, 2 ], [ 0, 1, 2, 16 ],
+        [ 0, 1, 2, 3, 15, 16 ] ] }
 estonianVerbs = Experiment
   { title         = "Estonian verbs"
   , lexicon       = "lib/src/estonian/DictEst.gf"
@@ -181,4 +182,5 @@ estonianVerbs = Experiment
   , morphology    = "lib/src/estonian/ParadigmsEst.gf"
   , smartparadigm = "mkV"
   , setup         = \forms -> map (map (esc . (forms!!)))
-      [ [ 2 ], [ 2, 0 ], [ 2, 0, 9 ], [ 2, 0, 9, 30 ] ] }
+      [ [ 2 ], [ 2, 0 ], [ 2, 0, 9 ], [ 2, 0, 9, 30 ],
+        [ 2, 0, 9, 30, 26, 15, 38, 39 ] ] }
