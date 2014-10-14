@@ -16,7 +16,7 @@ cabal-version:       >=1.8
 
 executable rgl-status
   main-is:            rgl-status.hs
-  other-modules:      HtmlReport
+  other-modules:      HtmlReport, Status, Options, Languages, Predictability
   build-depends:      base ==4.5.*,
                       blaze-html,
                       text,
@@ -27,7 +27,7 @@ executable rgl-status
 
 executable rgl-predictability
   main-is:            rgl-predictability.hs
-  other-modules:      HtmlReport
+  other-modules:      HtmlReport, Status, Options, Languages, Predictability
   build-depends:      base ==4.5.*,
                       blaze-html,
                       text,
