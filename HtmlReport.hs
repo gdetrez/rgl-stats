@@ -5,8 +5,8 @@ import Text.Blaze.Html5
 import qualified Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
 import Text.Blaze.Html.Renderer.Text
-import Data.Text.Lazy (Text)
-import qualified Data.Text.Lazy as Text
+import Data.Text (Text)
+import qualified Data.Text as Text
 import qualified Data.Text.Lazy as LT
 import Control.Monad (forM_, unless)
 import Data.Monoid ((<>))
@@ -20,9 +20,9 @@ import Status
 
 
 htmlToText :: Html -> Text
-htmlToText = renderHtml
-  -- where toStrict :: LT.Text -> Text
-  --       toStrict = Text.concat . LT.toChunks
+htmlToText = toStrict . renderHtml
+  where toStrict :: LT.Text -> Text
+        toStrict = Text.concat . LT.toChunks
 
 makeStatusReport :: [Status] -> Text
 makeStatusReport es = htmlToText $ docTypeHtml $ do

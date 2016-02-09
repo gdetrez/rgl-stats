@@ -4,13 +4,13 @@
 module Predictability where
 
 import Debug.Trace
-import Data.Text.Lazy (Text)
-import qualified Data.Text.Lazy as T
+import Data.Text (Text)
+import qualified Data.Text as T
 import Data.List
 import Data.Maybe (fromMaybe)
 import Options
 import Shelly
-import Prelude hiding (FilePath)
+import Prelude hiding (FilePath, Word)
 import Text.Printf (printf)
 
 

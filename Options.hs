@@ -29,26 +29,25 @@ parseVerbosity =
 
 parseOptions :: Parser Options
 parseOptions = Options
-      <$> optional (nullOption
+      <$> optional (option filepath
           ( long "gf-bin"
          <> metavar "GF"
-         <> help "Specify the gf binary to use instead of the one from $PATH"
-         <> reader (Right . fromString)))
+         <> help "Specify the gf binary to use instead of the one from $PATH"))
       <*> parseVerbosity
-      <*> optional (nullOption
+      <*> optional (option filepath
           ( long "html-report"
          <> metavar "HTML_FILE"
-         <> help "Save a html formated report in HTML_FILE"
-         <> reader (Right . fromString)))
-      <*> optional (nullOption
+         <> help "Save a html formated report in HTML_FILE"))
+      <*> optional (option filepath
           ( long "csv-report"
          <> metavar "CSV_FILE"
-         <> help "Save mean costs in a csv file to be ploted by jenkins"
-         <> reader (Right . fromString)))
-      <*> optional (option
+         <> help "Save mean costs in a csv file to be ploted by jenkins"))
+      <*> optional (option auto
           ( long "limit"
          <> metavar "N"
          <> help "limit the experiment to N lexicon entries"))
+  where
+    filepath = eitherReader (Right . fromString)
 
 getOptions :: Sh Options
 getOptions = do

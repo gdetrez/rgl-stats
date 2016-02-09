@@ -48,6 +48,7 @@ executable test-lexicon
                        MissingH,
                        multiset,
                        filepath
+  extensions: FlexibleContexts
 
 test-suite unit-tests
   type:               exitcode-stdio-1.0

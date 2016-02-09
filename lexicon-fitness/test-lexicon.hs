@@ -26,7 +26,7 @@ parameters = P
         ( long "wordlist"
         <> metavar "WORDLIST"
         <> help "Wordlist file" )
-    <*> argument Just
+    <*> strArgument
         ( metavar "LEXICON"
         <> help "CSV file, one entry per line" )
 
@@ -72,10 +72,10 @@ computeCorrectness :: [[String]] -> Set String -> ([Double], [String])
 computeCorrectness lexicon wordlist = runWriter $ do
     mapM entryCorrectness lexicon
   where entryCorrectness e = do
-          correct <- liftM (length . filter id) $ mapM isCorrect $ e
+          correct <- liftM (length . filter id) $ mapM isCorrect e
           let total = length e
           return (percentage correct total)
-        isCorrect form = if (Set.member form wordlist)
+        isCorrect form = if Set.member form wordlist
             then return True
             else tell [form] >> return False
 

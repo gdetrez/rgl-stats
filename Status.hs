@@ -10,8 +10,8 @@ import Text.Printf (printf)
 import Prelude hiding (FilePath)
 import Shelly
 
-import Data.Text.Lazy (Text)
-import qualified Data.Text.Lazy as T
+import Data.Text (Text)
+import qualified Data.Text as T
 
 import Predictability (ExperimentReport, runExperiment)
 import Languages
