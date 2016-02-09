@@ -17,48 +17,48 @@ cabal-version:       >=1.8
 executable rgl-status
   main-is:            rgl-status.hs
   other-modules:      HtmlReport, Status, Options, Languages, Predictability
-  build-depends:      base ==4.5.*,
+  build-depends:      base,
                       blaze-html,
                       text,
-                      shelly ==0.15.*,
-                      optparse-applicative == 0.5.*,
+                      shelly,
+                      optparse-applicative,
                       hslogger,
-                      hsparklines ==0.1.*
+                      hsparklines
 
 executable rgl-predictability
   main-is:            rgl-predictability.hs
   other-modules:      HtmlReport, Status, Options, Languages, Predictability
-  build-depends:      base ==4.5.*,
+  build-depends:      base,
                       blaze-html,
                       text,
-                      shelly ==0.15.*,
-                      optparse-applicative == 0.5.*,
+                      shelly,
+                      optparse-applicative,
                       hslogger,
-                      hsparklines ==0.1.*
+                      hsparklines
 
 executable test-lexicon
   main-is:             test-lexicon.hs
   hs-source-dirs:      lexicon-fitness
-  build-depends:       base ==4.5.*,
-                       optparse-applicative == 0.5.*,
-                       csv == 0.1.*,
-                       hslogger == 1.0.*,
+  build-depends:       base,
+                       optparse-applicative,
+                       csv,
+                       hslogger,
                        containers,
                        mtl,
-                       MissingH == 1.2.*,
-                       multiset == 0.2.1,
-                       filepath == 1.3.*
+                       MissingH,
+                       multiset,
+                       filepath
 
 test-suite unit-tests
   type:               exitcode-stdio-1.0
-  build-depends:      base ==4.5.*,
+  build-depends:      base,
                       blaze-html,
                       text,
-                      shelly ==0.15.*,
-                      optparse-applicative == 0.5.*,
+                      shelly,
+                      optparse-applicative,
                       hslogger,
-                      hsparklines ==0.1.*,
-                      hspec == 1.6.*,
+                      hsparklines,
+                      hspec,
                       QuickCheck
   main-is:            tests.hs
   hs-source-dirs:     . test
